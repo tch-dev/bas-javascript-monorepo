@@ -13,12 +13,12 @@ const Header = observer(() => {
       <div className="main-page">
         <header className="header">
           <h1>
-            <a href="https://jfinchain.com">
-              <img alt="" src="../JFINChain-logo.svg" />
+            <a href="https://co2ledger.net">
+              <img alt="" className="logo" src="../logo-chain-co2.svg" />
             </a>
           </h1>
           <nav>
-            <a href="https://exp.jfinchain.com">Explorer</a>
+            <a href="https://exp.co2ledger.net">Explorer</a>
           </nav>
         </header>
 

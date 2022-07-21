@@ -14,17 +14,17 @@
 /*    monospace;*/
 /*}*/
 :root {
-  --SD100: #0b0d0f;
-  --SD075: #16191d;
-  --SD050: #2e3338;
-  --SD025: #464c53;
-  --SD010: #777f88;
-  --SL100: #fff;
-  --SL075: #fcfcfc;
-  --SL050: #f2f2f3;
+  --SD100: #163331;
+  --SD075: #1c3d3a;
+  --SD050: #28514e;
+  --SD025: #2d5a57;
+  --SD010: #376c69;
+  --SL100: #a1c5c2;
+  --SL075: #b3d2d0;
+  --SL050: #c3e2e0;
   --SL025: #e5e5e6;
-  --S100: #c60000;
-  --S075: #ed0000;
+  --S100: #cdc500;
+  --S075: #dbd200;
   --S050: #ff1515;
   --S025: #ff6363;
 }
@@ -33,10 +33,14 @@ body {
   background-color: var(--SD100);
   color: var(--SL100);
 }
+a:hover {
+}
 h1.ant-typography {
   color: var(--SD010);
 }
-
+.logo {
+  width: 60px;
+}
 .centred {
   display: flex;
   height: 100%;
@@ -54,7 +58,7 @@ h1.ant-typography {
   align-items: center;
   margin: 5px;
   padding: 20px;
-  background-color: #f5f4f4;
+  background-color: var(--SL050);
   border-radius: 20px;
 }
 
@@ -66,7 +70,7 @@ h1.ant-typography {
   align-items: center;
   margin: 5px;
   padding: 40px 20px;
-  background-color: #000;
+  background-color: var(--SD075);
   border-radius: 20px;
 }
 .card .ant-typography {
@@ -118,27 +122,27 @@ h1.ant-typography {
   padding: 4px 0;
 }
 .blockInfoData > div {
-  padding: 72px 32px 32px 32px;
-  background-position: top right;
-  background-size: 240px;
+  padding: 32px 32px 62px 32px;
+  background-position: bottom right;
+  background-size: 140px;
   background-repeat: no-repeat;
   background-color: var(--SD075);
   border-radius: 16px;
 }
 .blockInfoData > div:first-child {
-  background-image: url(bg-40.png);
+  background-image: url(../public/icon-1.png);
 }
 .blockInfoData > div:first-child + div {
-  background-image: url(53.png);
+  background-image: url(../public/icon-2.png);
 }
 .blockInfoData > div:first-child + div + div {
-  background-image: url(13.png);
+  background-image: url(../public/icon-3.png);
 }
 .main-page {
-  background-image: url(jfin-bg.png);
+  /* background-image: url(jfin-bg.png);
   background-size: 100%;
   background-position: 0 -40%;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat; */
   padding: 0 32px 80px 32px;
 }
 .blockInfoItem {
@@ -190,6 +194,11 @@ h1.ant-typography {
 .ant-btn-primary {
   background: var(--S075);
   border-color: var(--S075);
+  color: var(--SD100);
+}
+.ant-btn:hover {
+  color: var(--SD100);
+  border-color: var(--SD100);
 }
 .ant-btn-primary,
 .ant-btn-default {
@@ -199,12 +208,12 @@ h1.ant-typography {
   background: var(--S100);
   border-color: var(--S100);
 }
-[class*="ant-btn"] {
-}
+
 .header {
   display: flex;
   align-items: center;
-  padding: 8px 0;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--SD075);
 }
 .header nav {
   margin-left: 64px;
@@ -212,6 +221,13 @@ h1.ant-typography {
 .header nav a {
   color: var(--SL100);
   font-display: inline-block;
+  display: flex;
+  align-items: center;
+}
+.header h1 {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
 }
 .header nav a:not(:last-child) {
   margin-right: 24px;
@@ -262,7 +278,7 @@ h1.ant-typography {
 .jfin-cond {
   font-size: 24px;
   margin-bottom: 24px;
-  color: #fff;
+  color: var(--SL025);
   text-align: center;
 }
 .condition-page + div {
@@ -276,4 +292,7 @@ h1.ant-typography {
   .condition-content article {
     height: 620px;
   }
+}
+body > iframe:last-child {
+  display: none;
 }
