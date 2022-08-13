@@ -290,3 +290,8 @@ h1.ant-typography {
     height: 620px;
   }
 }
+@media (max-width: 760px) {
+  .blockInfo {
+    display: none;
+  }
+}
