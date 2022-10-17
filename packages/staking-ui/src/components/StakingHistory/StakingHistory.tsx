@@ -19,7 +19,6 @@ const StakingHistory = observer(({ data, loading }: IStakingHistory) => {
   /* -------------------------------------------------------------------------- */
   /*                                   States                                   */
   /* -------------------------------------------------------------------------- */
-
   const store = useBasStore();
   const columns: ColumnProps<IStakingHistoryColumn>[] = [
     {
@@ -54,14 +53,13 @@ const StakingHistory = observer(({ data, loading }: IStakingHistory) => {
     },
     {
       key: "validatorMask",
-      dataIndex: "validatorMask",
       title: "Validator",
       // responsive: ["sm"],
       render: (v) => (
         <div className="items-center column-validator">
           <img
-            src={v.image}
-            alt={v.name}
+            src={v.validatorMask.image}
+            alt={v.validatorMask.name}
             style={{
               width: "30px",
               height: "30px",
@@ -71,7 +69,7 @@ const StakingHistory = observer(({ data, loading }: IStakingHistory) => {
             }}
           />
           <div>
-            <span>{v.name}</span>
+            <span>{v.validatorMask.name}</span>
             <CopyToClipboard text={v.validator}>
               <CopyOutlined
                 className="copy-clipboard"
