@@ -11,6 +11,7 @@ import {PastEventOptions} from "web3-eth-contract";
 import BigNumber from "bignumber.js";
 import {keccak256} from "web3-utils";
 import {sortEventData} from "./utils";
+import { GAS_LIMIT, GAS_PRICE } from "./config";
 
 export class ProposalBuilder {
 
@@ -271,6 +272,8 @@ export class Governance {
     return await this.keyProvider.sendTx({
       to: this.keyProvider.governanceAddress!,
       data: data,
+      gasLimit: GAS_LIMIT,
+      gasPrice: GAS_PRICE
     })
   }
 }

@@ -21,7 +21,7 @@ const Validators = observer(
     const { Panel } = Collapse;
 
     const loadingValidator = Array.from(
-      Array(getCurrentEnv() === "jfin" ? 5 : 3).keys()
+      Array(getCurrentEnv() === "jfin" ? 7 : 3).keys()
     ).map((v, i) => (
       <Panel
         key={`loading-validator-${i + 1}`}
