@@ -196,14 +196,18 @@ const ValidatorCollapseContent = observer(
                   <JfinCoin />
                 </div>
                 <div>
-                  <button
-                    className="button secondary lg"
-                    disabled={!store.walletAccount}
-                    onClick={handleAdd}
-                    type="button"
-                  >
-                    <PlusOutlined />
-                  </button>
+                  {store.getValidatorStatus(validator!.status).status ===
+                    "Active" && (
+                    <button
+                      className="button secondary lg"
+                      disabled={!store.walletAccount}
+                      onClick={handleAdd}
+                      type="button"
+                    >
+                      <PlusOutlined />
+                    </button>
+                  )}
+
                   <button
                     className="button secondary lg"
                     disabled={!store.walletAccount}
