@@ -1,4 +1,4 @@
-import {Web3Address} from "./types";
+import { Web3Address } from "./types";
 
 export interface IExplorerConfig {
   homePage: string;
@@ -24,3 +24,6 @@ export interface IConfig {
   runtimeUpgradeAddress: Web3Address;
   deployerProxyAddress: Web3Address;
 }
+
+export const GAS_LIMIT = "7000000";
+export const GAS_PRICE = "23000000000";
