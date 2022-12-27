@@ -151,9 +151,7 @@ export class BasStore {
   }
 
   public getWalletBalance() {
-    return Number(
-      (Number(this.walletBalance) / GWEI).toFixed(5)
-    ).toLocaleString();
+    return new BigNumber(this.walletBalance).div(GWEI).toNumber().toLocaleString()
   }
 
   updateAccount(accounts: string[] | undefined) {
@@ -384,7 +382,7 @@ export class BasStore {
     const reward = await this.getBasSdk()
       .getStaking()
       .getMyStakingRewards(validator.validator);
-    return Number(reward) / GWEI;
+    return new BigNumber(reward).div(GWEI).toNumber();
   }
 
   public async getMyValidatorStaked(validator: IValidator) {
@@ -392,7 +390,7 @@ export class BasStore {
       .getStaking()
       .getMyDelegatedAmount(validator.validator);
 
-    return Number(total) / GWEI;
+    return new BigNumber(total).div(GWEI).toNumber();
   }
 
   public async getChainConfig(): Promise<IChainConfig & IChainParams> {
