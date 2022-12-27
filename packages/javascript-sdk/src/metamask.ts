@@ -1,6 +1,6 @@
 import Web3 from "web3";
 import { numberToHex } from "web3-utils";
-import { IConfig } from "./config";
+import { GAS_LIMIT_CLAIM, IConfig } from "./config";
 import { IPendingTx } from "./types";
 
 export const waitForExpectedNetworkOrThrow = async (
@@ -87,8 +87,10 @@ export const sendTransactionAsync = async (
   const gasLimit = sendOptions.gasLimit
     ? numberToHex(sendOptions.gasLimit)
     : numberToHex(
-        await web3.eth.estimateGas(sendOptions)
+        await web3.eth.estimateGas({...sendOptions, gas: GAS_LIMIT_CLAIM})
       ); // return units
+
+  // console.log('gas estimate', await web3.eth.estimateGas({from: sendOptions.from, value: sendOptions.value, gas: GAS_LIMIT_CLAIM}))
 
   // declear transaction payload
   let tx = {

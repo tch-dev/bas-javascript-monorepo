@@ -2,6 +2,7 @@ import { CopyOutlined } from "@ant-design/icons";
 import { Table } from "antd";
 import { ColumnProps } from "antd/lib/table";
 import { observer } from "mobx-react";
+import moment from "moment";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { getCurrentEnv, useBasStore } from "src/stores";
 
@@ -24,18 +25,36 @@ const StakingHistory = observer(({ data, loading }: IStakingHistory) => {
     {
       title: "Type",
       render: (v: IMyTransactionHistory) => {
-        const diffBlock =
-          Number(v.event.blockNumber) - Number(store.chainInfo?.blockNumber);
-        return (
-          <>
-            {v.type.toUpperCase()}{" "}
-            {v.type === "undelegation" && diffBlock >= 0 && (
-              <span style={{ color: "orange" }}>
-                ({store?.chainInfo && store.chainInfo.nextEpochIn})
-              </span>
-            )}
-          </>
-        );
+        if (v.type === "undelegation") {
+          const epochBlockInterval = +(
+            store.chainInfo?.epochBlockInterval || 0
+          );
+          const transactionBlock = +(v.event?.blockNumber || 0);
+          const nextBlock = store.chainInfo?.nextEpochBlock || 0;
+          const currentBlock = +(store.chainInfo?.blockNumber || 0);
+          const blockTime = store.chainInfo?.blockTime || 0;
+
+          const targetUndelegateBlock =
+            nextBlock - transactionBlock <= epochBlockInterval
+              ? nextBlock - currentBlock + epochBlockInterval
+              : nextBlock - currentBlock;
+
+          const remain = targetUndelegateBlock * blockTime;
+          const timeRemain = moment
+            .utc(remain * 1000)
+            .format(remain < 3600 ? "mm[m] ss[s]" : "h[h] mm[m] ss[s]");
+
+          return (
+            <>
+              {v.type.toUpperCase()}{" "}
+              {(nextBlock - transactionBlock) / epochBlockInterval < 2 && (
+                <span style={{ color: "orange" }}>(Ready in {timeRemain})</span>
+              )}
+            </>
+          );
+        }
+
+        return <>{v.type.toUpperCase()}</>;
       },
     },
     {
