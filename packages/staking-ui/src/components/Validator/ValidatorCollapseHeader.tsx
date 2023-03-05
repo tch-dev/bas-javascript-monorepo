@@ -103,7 +103,14 @@ const ValidatorCollapseHeader = observer(
         <Col className="item-total" lg={4}>
           <div>
             <span className="col-title">Total Stake</span>
-            <div>{store.getValidatorTotalStake(validator)}</div>
+            <div>
+              {store
+                .getValidatorTotalStake(validator)
+                .toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+            </div>
           </div>
         </Col>
 
@@ -128,10 +135,10 @@ const ValidatorCollapseHeader = observer(
             <div>
               {myReward
                 ? Number(myReward).toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
+                    minimumFractionDigits: 5,
+                    maximumFractionDigits: 5,
                   })
-                : 0}
+                : "-"}
             </div>
           </div>
         </Col>
@@ -140,14 +147,7 @@ const ValidatorCollapseHeader = observer(
         <Col className="item-staking" lg={4} sm={2}>
           <div>
             <span className="col-title">Staked</span>
-            <div>
-              {myStaked
-                ? Number(myStaked).toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })
-                : 0}
-            </div>
+            <div>{myStaked ? Number(myStaked).toFixed(2) : "-"}</div>
           </div>
         </Col>
 
