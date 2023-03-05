@@ -151,10 +151,7 @@ export class BasStore {
   }
 
   public getWalletBalance() {
-    return new BigNumber(this.walletBalance)
-      .div(GWEI)
-      .toNumber()
-      .toLocaleString();
+    return new BigNumber(this.walletBalance).div(GWEI).toNumber().toLocaleString()
   }
 
   updateAccount(accounts: string[] | undefined) {
@@ -358,7 +355,10 @@ export class BasStore {
 
   public getValidatorTotalStake(validator?: IValidator) {
     if (!validator) return "N/A";
-    return new BigNumber(validator.totalDelegated).dividedBy(GWEI).toNumber();
+    return `${new BigNumber(validator.totalDelegated)
+      .dividedBy(GWEI)
+      .toNumber()
+      .toLocaleString()}`;
   }
 
   // public async getMyValidatorReward() {

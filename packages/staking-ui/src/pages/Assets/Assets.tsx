@@ -110,8 +110,8 @@ const Assets = observer(() => {
                   }}
                 >
                   {totalStaked.toLocaleString(undefined, {
-                    minimumFractionDigits: 5,
-                    maximumFractionDigits: 5,
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
                   })}
                   <JfinCoin />
                 </div>
@@ -150,8 +150,8 @@ const Assets = observer(() => {
                   }}
                 >
                   {totalReward.toLocaleString(undefined, {
-                    minimumFractionDigits: 5,
-                    maximumFractionDigits: 5,
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
                   })}
                   <JfinCoin />
                 </div>
