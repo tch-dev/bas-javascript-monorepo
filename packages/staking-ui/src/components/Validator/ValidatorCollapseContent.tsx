@@ -4,6 +4,7 @@ import {
   MinusOutlined,
   PlusOutlined,
   WalletOutlined,
+  WarningOutlined,
 } from "@ant-design/icons";
 import { Col, Row } from "antd";
 import BigNumber from "bignumber.js";
@@ -29,8 +30,8 @@ const ValidatorCollapseContent = observer(
     /* -------------------------------------------------------------------------- */
     const store = useBasStore();
     const modalStore = useModalStore();
-    const [stakingReward, setStakingReward] = useState((0).toFixed(3));
-    const [stakingAmount, setStakingAmount] = useState((0).toFixed(3));
+    const [stakingReward, setStakingReward] = useState(0);
+    const [stakingAmount, setStakingAmount] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
 
     /* -------------------------------------------------------------------------- */
@@ -38,22 +39,22 @@ const ValidatorCollapseContent = observer(
     /* -------------------------------------------------------------------------- */
 
     const getReward = async (stakingProvider: Staking) => {
-      if (!stakingProvider || !validator) return Number(0).toFixed(3);
+      if (!stakingProvider || !validator) return Number(0);
 
       const reward = await stakingProvider?.getMyStakingRewards(
         validator.validator
       );
 
-      return new BigNumber(reward).dividedBy(GWEI).toFixed(3);
+      return new BigNumber(reward).dividedBy(GWEI).toNumber();
     };
 
     const getMyStaking = async (stakingProvider: Staking) => {
-      if (!stakingProvider || !validator) return (0).toFixed(3);
+      if (!stakingProvider || !validator) return 0;
 
       const amount = await stakingProvider.getMyDelegatedAmount(
         validator.validator
       );
-      return new BigNumber(amount).dividedBy(GWEI).toFixed(3);
+      return new BigNumber(amount).dividedBy(GWEI).toNumber();
     };
 
     const inital = async () => {
@@ -61,6 +62,23 @@ const ValidatorCollapseContent = observer(
 
       await setStakingReward(await getReward(stakingProvider));
       await setStakingAmount(await getMyStaking(stakingProvider));
+    };
+
+    const handleClaim = async (isStaking = false) => {
+      if (!validator) return;
+
+      modalStore.setVisible(true);
+      modalStore.setIsLoading(true);
+      modalStore.setTitle("Claim Reward");
+      modalStore.setContent(
+        <ClaimStakingContent
+          amount={+stakingReward}
+          isStaking={isStaking}
+          onSuccess={refresh || inital}
+          validator={validator}
+        />
+      );
+      modalStore.setIsLoading(false);
     };
 
     const handleAdd = async () => {
@@ -90,21 +108,6 @@ const ValidatorCollapseContent = observer(
       modalStore.setIsLoading(false);
     };
 
-    const handleCliam = async () => {
-      if (!validator) return;
-      modalStore.setVisible(true);
-      modalStore.setIsLoading(true);
-      modalStore.setTitle("Claim Reward");
-      modalStore.setContent(
-        <ClaimStakingContent
-          amount={+stakingReward}
-          onSuccess={refresh || inital}
-          validator={validator}
-        />
-      );
-      modalStore.setIsLoading(false);
-    };
-
     /* -------------------------------------------------------------------------- */
     /*                                   Watches                                  */
     /* -------------------------------------------------------------------------- */
@@ -127,12 +130,12 @@ const ValidatorCollapseContent = observer(
                   </div>
                   <div>
                     <span>APR: </span>{" "}
-                    {store
-                      .getValidatorsApr(validator)
-                      .toLocaleString(undefined, {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      })}
+                    {Number(
+                      Number(store.getValidatorsApr(validator)).toFixed(2)
+                    ).toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
                     %
                   </div>
                   <div>
@@ -141,7 +144,12 @@ const ValidatorCollapseContent = observer(
                   </div>
                   <div>
                     <span>Total Stake: </span>
-                    {store.getValidatorTotalStake(validator)}
+                    {store
+                      .getValidatorTotalStake(validator)
+                      .toLocaleString(undefined, {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
                   </div>
                   <a
                     href={
@@ -168,15 +176,15 @@ const ValidatorCollapseContent = observer(
               <div>
                 <div className="value">
                   {Number(stakingReward).toLocaleString(undefined, {
-                    minimumFractionDigits: 3,
-                    maximumFractionDigits: 3,
+                    minimumFractionDigits: 5,
+                    maximumFractionDigits: 5,
                   })}{" "}
                   <JfinCoin />
                 </div>
                 <button
                   className="button secondary lg"
-                  disabled={!store.walletAccount}
-                  onClick={handleCliam}
+                  disabled={!store.walletAccount || !stakingReward}
+                  onClick={() => handleClaim()}
                   type="button"
                 >
                   {isLoading ? <LoadingOutlined spin /> : "Claim"}
@@ -190,33 +198,53 @@ const ValidatorCollapseContent = observer(
               <div>
                 <div className="value">
                   {Number(stakingAmount).toLocaleString(undefined, {
-                    minimumFractionDigits: 3,
-                    maximumFractionDigits: 3,
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
                   })}{" "}
                   <JfinCoin />
                 </div>
                 <div>
-                  {store.getValidatorStatus(validator!.status).status ===
-                    "Active" && (
+                  <div style={{ textAlign: "right" }}>
+                    {store.getValidatorStatus(validator!.status).status ===
+                      "Active" && (
+                      <button
+                        className="button secondary lg"
+                        disabled={!store.walletAccount || !!stakingReward}
+                        onClick={handleAdd}
+                        type="button"
+                      >
+                        <PlusOutlined />
+                      </button>
+                    )}
+
                     <button
                       className="button secondary lg"
-                      disabled={!store.walletAccount}
-                      onClick={handleAdd}
+                      disabled={!store.walletAccount || !!stakingReward}
+                      onClick={handleUnStaking}
+                      style={{ marginLeft: "10px" }}
                       type="button"
                     >
-                      <PlusOutlined />
+                      <MinusOutlined />
                     </button>
+                  </div>
+                  {stakingReward ? (
+                    <div
+                      style={{
+                        marginTop: "5px",
+                        marginLeft: "1rem",
+                        fontSize: "0.7rem",
+                        textAlign: "right",
+                        opacity: 0.75,
+                        lineHeight: 1,
+                      }}
+                    >
+                      <span>
+                        Please claim all pending reward before staking.
+                      </span>
+                    </div>
+                  ) : (
+                    <></>
                   )}
-
-                  <button
-                    className="button secondary lg"
-                    disabled={!store.walletAccount}
-                    onClick={handleUnStaking}
-                    style={{ marginLeft: "10px" }}
-                    type="button"
-                  >
-                    <MinusOutlined />
-                  </button>
                 </div>
               </div>
             </div>
