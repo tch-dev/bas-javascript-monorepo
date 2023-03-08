@@ -1,17 +1,14 @@
 import { GAS_LIMIT_CLAIM, IValidator } from "@ankr.com/bas-javascript-sdk";
-import {
-  AlertOutlined,
-  LoadingOutlined,
-  WarningOutlined,
-} from "@ant-design/icons";
+import { LoadingOutlined, WarningOutlined } from "@ant-design/icons";
 import { message } from "antd";
+import BigNumber from "bignumber.js";
 import { observer } from "mobx-react";
 import { FormEvent, useEffect, useState } from "react";
 import JfinCoin from "src/components/JfinCoin/JfinCoin";
 import { useBasStore, useModalStore } from "src/stores";
+import { GWEI } from "src/utils/const";
 
 interface IClaimStakingContent {
-  isStaking?: boolean;
   validator: IValidator;
   amount?: number;
   onSuccess?: () => void;
@@ -74,29 +71,19 @@ const ClaimStakingContent = observer((props: IClaimStakingContent) => {
             disabled
             style={{ marginTop: "15px" }}
             type="number"
-            value={props.amount?.toLocaleString(undefined, {
-              minimumFractionDigits: 5,
-              maximumFractionDigits: 5,
-            })}
+            value={props.amount}
           />
           <div className="staking-sub-input justify-between ">
             <span className="wallet-warning">{error}</span>
           </div>
         </div>
 
-        {props?.isStaking ? (
-          <div className="alert-message">
-            <AlertOutlined />
-            Please claim all rewards before staking or un-staking
-          </div>
-        ) : (
-          <div className="warning-message">
-            <WarningOutlined />
-            If reward you received does not match the reward that the system has
-            indicated, This may happen from the gas limit. Please increase the
-            gas limit in wallet (up to {GAS_LIMIT_CLAIM}).
-          </div>
-        )}
+        <div className="warning-message">
+          <WarningOutlined />
+          If reward you received does not match the reward that the system has
+          indicated, This may happen from the gas limit. Please increase the gas
+          limit in wallet (up to {GAS_LIMIT_CLAIM}).
+        </div>
 
         <button
           className="button lg w-100 m-0 ghost mt-2"
