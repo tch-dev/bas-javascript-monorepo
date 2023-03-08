@@ -10,6 +10,7 @@ import {
 import BigNumber from "bignumber.js";
 import {sortEventData, sortHasEventData} from "./utils";
 import {EventData} from "web3-eth-contract";
+import { GAS_LIMIT_CLAIM, GAS_PRICE } from "./config";
 
 export class Staking {
 
@@ -116,7 +117,7 @@ export class Staking {
     })
   }
 
-  private async loadValidatorInfo(validator: Web3Address, epoch?: number): Promise<IValidator> {
+  public async loadValidatorInfo(validator: Web3Address, epoch?: number): Promise<IValidator> {
     let status: any;
     if (epoch) {
       status = await this.keyProvider.stakingContract!.methods.getValidatorStatusAtEpoch(validator, epoch).call()
@@ -147,6 +148,7 @@ export class Staking {
       to: this.keyProvider.stakingAddress!,
       value: amount,
       data: data,
+      gasPrice: GAS_PRICE
     })
   }
 
@@ -212,6 +214,7 @@ export class Staking {
     return this.keyProvider.sendTx({
       to: this.keyProvider.stakingAddress!,
       data: data,
+      gasPrice: GAS_PRICE
     })
   }
 
@@ -230,6 +233,8 @@ export class Staking {
     return this.keyProvider.sendTx({
       to: this.keyProvider.stakingAddress!,
       data: data,
+      gasLimit: GAS_LIMIT_CLAIM,
+      gasPrice: GAS_PRICE
     })
   }
 
