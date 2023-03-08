@@ -71,6 +71,14 @@ const Main = observer(() => {
       >
         <Conditions />
       </CookieConsent>
+      <div
+        style={{
+          maxWidth: "600px",
+          textAlign: "center",
+          color: "black"
+        }}>
+          Latest Update 2023-03-05
+        </div>
     </div>
   );
 });
