@@ -123,3 +123,6 @@ export const GAS_PRICE = "23000000000";
 ## Contact Us
 
 For business inquiries: info@jventures.co.th
+
+## Latest Release
+21 April 2023
