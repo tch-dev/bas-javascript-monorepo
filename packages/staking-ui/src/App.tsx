@@ -6,6 +6,7 @@ import Navbar from "src/components/Navbar/Navbar";
 import BlockInfo from "./components/BlockInfo/BlockInfo";
 import Conditions from "./components/Conditions";
 import GlobalModal from "./components/Modal/GlobalModal";
+import StakingRecovery from "./pages/StakingRecovery/StakingRecovery";
 
 const Staking = React.lazy(() => import("./pages/Staking/Staking"));
 const Governance = React.lazy(() => import("./pages/Governance"));
@@ -31,6 +32,12 @@ const Main = observer(() => {
               exact
               component={Staking}
               path={["/", "/staking"]}
+            />
+            <Route
+              key="Staking-recovery"
+              exact
+              component={StakingRecovery}
+              path="/staking-recovery"
             />
             <Route key="governance" component={Governance} path="/governance" />
             <Route key="assets" component={Assets} path="/assets" />
@@ -77,7 +84,7 @@ const Main = observer(() => {
           textAlign: "center",
           color: "black"
         }}>
-          Latest Update 2023-03-05
+          Latest Update 2023-04-21
       </div>
     </div>
   );

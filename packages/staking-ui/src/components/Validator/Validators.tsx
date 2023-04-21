@@ -11,10 +11,11 @@ interface IValidatorsProps {
   validators: undefined | IValidator[];
   refresh?: () => unknown;
   loading: boolean;
+  forceActionButtonsEnabled?: boolean
 }
 
 const Validators = observer(
-  ({ validators, refresh, loading }: IValidatorsProps) => {
+  ({ validators, refresh, loading, forceActionButtonsEnabled }: IValidatorsProps) => {
     /* -------------------------------------------------------------------------- */
     /*                                   States                                   */
     /* -------------------------------------------------------------------------- */
@@ -56,6 +57,7 @@ const Validators = observer(
                       <ValidatorCollapseContent
                         validator={v}
                         refresh={refresh}
+                        forceActionButtonsEnabled={forceActionButtonsEnabled}
                       />
                     </Panel>
                   );
