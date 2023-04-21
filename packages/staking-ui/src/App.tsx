@@ -84,8 +84,8 @@ const Main = observer(() => {
           textAlign: "center",
           color: "black"
         }}>
-          Latest Update 2023-03-05
-        </div>
+          Latest Update 2023-04-21
+      </div>
     </div>
   );
 });
